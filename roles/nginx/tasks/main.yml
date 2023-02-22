@@ -1,0 +1,47 @@
+- name: Enable amzn2extra-nginx1 repository
+  shell: amazon-linux-extras enable nginx1
+  changed_when: false
+
+- name: Install Nginx packages from amazon-linux-extras
+  when: not ansible_check_mode
+  yum:
+    name: nginx
+    state: present
+
+- name: append nginx group to ec2-user user
+  when: not ansible_check_mode
+  user:
+    name: ec2-user
+    append: yes
+    groups: ec2-user,nginx
+
+- name: change owner and mode
+  file:
+    path: /usr/share/nginx
+    state: directory
+    recurse: yes
+    group: nginx
+    owner: ec2-user
+    mode: 0775
+
+- name: copy nginx
+  copy:
+    src: ../files/nginx.conf
+    dest: /etc/nginx
+
+- name: chown nginx
+  when: not ansible_check_mode
+  file:
+    path: /etc/nginx/nginx.conf
+    state: file
+    group: root
+    owner: root
+    mode: 0644
+
+- name: restart nginx
+  when: not ansible_check_mode
+  service:
+    name: nginx
+    state: restarted
+    enabled: yes
+

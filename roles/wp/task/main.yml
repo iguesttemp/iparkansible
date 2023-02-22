@@ -1,0 +1,49 @@
+- name: Get wp-cli
+  get_url:
+    url: https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+    dest: /usr/local/bin/wp
+    mode: 0755
+
+      #- name: copy wp-cli
+      # when: not ansible_check_mode
+      #copy:
+      #src: /tmp/wp-cli.phar
+      #dest: /usr/local/bin/wp
+
+      #- name: chown wp-cli
+      #when: not ansible_check_mode
+      #file:
+      #path: /usr/local/bin/wp
+      #state: file
+      #group: root
+      #owner: root
+      #mode: 0755
+
+      #- name: check file index.php
+      #  stat:
+      #    path: /var/www/html/index.php
+      #  register: index_php
+
+      #- name: wp download
+      # when: not index_php.stat.exists
+      # shell: "wp core download --locale=ja --path=/var/www/html --version=5.7.8"
+
+      #- name: check file wp-config.php
+      # stat:
+      #   path: /var/www/html/wp-config.php
+      # register: wpconfig_php
+
+      #- name: wp config create
+      # when: not wpconfig_php.stat.exists
+      #  shell: "wp config create --dbname={{ db_name }} --dbuser={{ db_user_name }} --dbpass={{ db_user_password }} --path=/var/www/html"
+
+      #- name: wp install
+      # shell: "wp core install --url=http://`curl inet-ip.info` --title={{ title }} --admin_user={{ admin_user }} --admin_password={{ admin_password }} --admin_email={{ admin_email }} --path=/var/www/html"
+
+      #- name: restart nginx
+      # when: not ansible_check_mode
+      #  service:
+      #   name: nginx
+      #    state: restarted
+      #   enabled: yes
+

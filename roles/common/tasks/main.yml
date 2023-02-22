@@ -1,0 +1,16 @@
+- name: set locale
+  shell: "localectl set-locale LANG=ja_JP.UTF-8 LANGUAGE=\"ja_JP:ja\""
+
+- name: set timezone
+  timezone:
+    name: Asia/Tokyo
+
+- name: copy chrony.conf
+  copy:
+    src: ../files/chrony.conf
+    dest: /etc/chrony
+
+- name: instal PyMySQL
+  pip: 
+    name: PyMySQL
+    executable: pip3

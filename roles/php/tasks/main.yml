@@ -1,0 +1,32 @@
+- name: Enable amzn2extra-php7.4 repository
+  when: not ansible_check_mode
+  shell: amazon-linux-extras enable php7.4
+  changed_when: false
+
+- name: Install PHP packages from amazon-linux-extras
+  yum:
+    name:
+      - php
+      - php-pdo
+      - php-mysqlnd
+      - php-cli
+      - php-json
+      - php-gd
+      - php-mbstring
+      - php-xml
+      - php-fpm
+    state: present
+
+- name: copy
+  copy:
+    src: ../files/www.conf
+    dest: /etc/php-fpm.d/www.conf
+
+- name: restart php-fpm
+  when: not ansible_check_mode
+  service:
+    name: php-fpm
+    state: restarted
+    enabled: yes
+
+

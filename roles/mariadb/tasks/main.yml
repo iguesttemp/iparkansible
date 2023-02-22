@@ -1,0 +1,55 @@
+- name: Enable amzn2extra-mariadb10.5 repository
+  when: not ansible_check_mode
+  shell: amazon-linux-extras enable mariadb10.5
+  changed_when: false
+
+- name: Install MariaDB packages from amazon-linux-extras
+  yum:
+    name: 
+      - mariadb
+      - MySQL-python
+    state: present
+
+- name: install PyMySQL
+  pip:
+    name: PyMySQL
+    executable: pip3
+
+- name: restart mariadb
+  when: not ansible_check_mode
+  service:
+    name: mariadb
+    state: restarted
+    enabled: yes
+
+- name: Create Database
+  when: not ansible_check_mode
+  mysql_db:
+    login_unix_socket: /var/lib/mysql/mysql.sock
+    login_user: root
+    login_password: ""
+    name: "{{ db_name }}"
+    state: present
+    encoding: utf8mb4
+    collation: utf8mb4_general_ci
+
+- name: Create Database User
+  when: not ansible_check_mode
+  mysql_user:
+    login_unix_socket: /var/lib/mysql/mysql.sock
+    login_user: root
+    login_password: ""
+    name: "{{ db_user_name }}"
+    password: "{{ db_user_password }}"
+    host: "localhost"
+    priv: "{{ db_name }}.*:ALL,GRANT"
+    state: present
+
+- name: restart mariadb
+  when: not ansible_check_mode
+  service:
+    name: mariadb
+    state: restarted
+    enabled: yes
+
+

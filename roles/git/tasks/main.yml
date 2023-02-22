@@ -1,0 +1,5 @@
+- name: Git checkout
+  ansible.builtin.git:
+    repo: 'https://github.com/iguesttemp/ipark.git'
+    dest: /var/www/html
+    version: main

@@ -1,0 +1,12 @@
+- hosts: all
+  become: yes
+  gather_facts: no
+  name: common settings
+  roles:
+    - common
+    - nginx
+    - mariadb
+    - php
+    - wp
+    - git
+

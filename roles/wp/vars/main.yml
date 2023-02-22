@@ -1,0 +1,8 @@
+db_name: wordpress-db
+db_user_name: wordpress-user
+db_user_password: WPWP@123
+title: ipktest
+admin_user: ipkuser
+admin_password: IPKIPK@123
+admin_email: ipktest@example.com
+
